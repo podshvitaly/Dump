@@ -22,17 +22,13 @@ class Dump
         return self::$instance;
     }
 
-    function getDump($array){
-        echo '<div class="dump">';
-
-        echo "<input type='text' style='width:100%'>";
-        self::createList($array);
-
-
+    public function getDump($array){
+        echo '<div class="pvdump__item">';
+            self::createList($array);
         echo '</div>';
     }
 
-    function createList($array){
+    protected function createList($array){
         echo '<ul class="varDump">';
         foreach ($array as $key=>$el){
             if(is_array($el)){
@@ -47,47 +43,81 @@ class Dump
 
     }
 
-    function getStyle()
+    static protected function getStyle()
     {
         echo "
           <style>   
-          .dump{
-            position: relative;
-            z-index: 99999999;
-            background: white;
+          #pvDump{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 99999998;            
+            background: #0A121C;
+            color: white;
+            max-height: 100%;
+            overflow-y: scroll;
           }   
-        .varDump{
+          #pvDump input{
+          width: 100%;
+          }
+          
+          #pvDump__close{
+          position: fixed;
+             z-index: 99999999;            
+             top: 0;  
+             right: 18px;
+          }
+        #pvDump .varDump{
             display: block;
             
         }
-        .varDump li{
+        #pvDump .varDump li{
         line-height: 120%;
         }      
-        .varDump .array:hover {
+        #pvDump .varDump .array:hover {
             cursor: pointer;
         }
-        .varDump .array span{
+        #pvDump .varDump .array span{
             color: #ff5b1d;
         }
-        .varDump .varDump{
+        #pvDump .varDump .varDump{
             display: none;
             padding: 5px 0 10px 30px;
 
         }
-        .varDump li.active>.varDump{
+        #pvDump .varDump li.active>.varDump{
             display: block;
         }
     </style>
     <script>
         window.onload = function(){   
-            var node =  document.querySelector('body');
-           
-            document.querySelectorAll('.dump').forEach(function(obj) {
-               node.prepend(obj);               
+            var body =  document.querySelector('body');
+            var node = document.createElement('div');
+            var input = document.createElement('input');
+            var buttonClose = document.createElement('button');
+            node.setAttribute('id','pvDump');            
+            node.prepend(input);
+            
+            body.prepend(node);
+            buttonClose.setAttribute('id','pvDump__close');buttonClose.innerHTML = 'dump';  
+            buttonClose.onclick = function(){ 
+                if (node.style.display === 'none') {
+                    node.style.display = 'block';
+                }else{
+                    node.style.display = 'none';
+                }   
+            }
+            body.prepend(buttonClose);
+            document.querySelectorAll('.pvdump__item').forEach(function(obj) {
+               node.append(obj);               
             }) 
             document.querySelectorAll('.varDump li.array span').forEach(function(obj) {
                obj.onclick = function() {
-                    this.parentNode.classList.toggle('active');
+                   var state = this.parentNode.classList.toggle('active');
+                    if(state) this.innerHTML = 'close';
+                    else this.innerHTML = 'open';
+                    
                } 
             }) 
              document.querySelectorAll('.varDump li var').forEach(function(obj) {
@@ -95,9 +125,7 @@ class Dump
                  var path = '';                           
                  getAllParents(obj,'li').forEach(function(li) {
                       path = '[\'' + li.getAttribute('name') + '\']' + path ;
-                 });
-              
-                   var input = obj.closest('.dump').querySelector('input');
+                 });                                
                    
                    input.value = path;
                    input.select();
@@ -114,11 +142,8 @@ class Dump
                         } 
                             
                         function getNextParent(node,selector) {
-                          var parent = node.parentNode.closest(selector);   
-                          console.log(parent)
-                          console.log(node)
-                          if(parent && parent !== node){                             
-                              
+                          var parent = node.parentNode.closest(selector);                     
+                          if(parent && parent !== node){      
                                parents.push(parent);                          
                                 getNextParent(parent,selector)                            
                           } 
