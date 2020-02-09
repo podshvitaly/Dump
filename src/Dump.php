@@ -92,8 +92,18 @@ class Dump
           }   
           #pvDump input{
           width: 100%;
+          margin-left: 50px;
+          padding-left: 10px; 
           }
-          
+          #pvDump .toUpperCase{
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 50px;
+          }
+          #pvDump input.toUpperCaseActive {
+            text-transform: uppercase; 
+          }
           #pvDump__close{
           position: fixed;
              z-index: 99999999;            
@@ -129,11 +139,15 @@ class Dump
              node.style.display = 'none';
             var input = document.createElement('input');
             var buttonClose = document.createElement('button');
-            node.setAttribute('id','pvDump');            
-            node.prepend(input);
+            var buttonUpperCase = document.createElement('button');
             
+            node.setAttribute('id','pvDump');            
+            node.prepend(input);            
+            node.prepend(buttonUpperCase);            
             body.prepend(node);
-            buttonClose.setAttribute('id','pvDump__close');buttonClose.innerHTML = 'dump';  
+            
+            buttonClose.setAttribute('id','pvDump__close');
+            buttonClose.innerHTML = 'dump';  
             buttonClose.onclick = function(){ 
                 if (node.style.display === 'none') {
                     node.style.display = 'block';
@@ -141,6 +155,17 @@ class Dump
                     node.style.display = 'none';
                 }   
             }
+            
+            buttonUpperCase.innerHTML = 'toUp';
+            buttonUpperCase.classList.add('toUpperCase');
+            
+            buttonUpperCase.onclick = function(){
+                input.classList.toggle('toUpperCaseActive');
+                input.select();
+                document.execCommand('copy');
+            }
+            
+            
             body.prepend(buttonClose);
             document.querySelectorAll('.pvdump__item').forEach(function(obj) {
                node.append(obj);               
