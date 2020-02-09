@@ -88,7 +88,7 @@ class Dump
             background: #0A121C;
             color: white;
             max-height: 100%;
-            overflow-y: scroll;
+            overflow-y: scroll;           
           }   
           #pvDump input{
           width: 100%;
@@ -126,6 +126,7 @@ class Dump
         window.onload = function(){   
             var body =  document.querySelector('body');
             var node = document.createElement('div');
+             node.style.display = 'none';
             var input = document.createElement('input');
             var buttonClose = document.createElement('button');
             node.setAttribute('id','pvDump');            
