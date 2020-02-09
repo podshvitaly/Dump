@@ -8,9 +8,6 @@
 
 namespace PodshVitaly;
 
-
-use mysql_xdevapi\Exception;
-
 class Dump
 {
     protected static $instance = null;
@@ -52,7 +49,7 @@ class Dump
                     echo '</ul>';
                     echo ' </li>';
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 echo '<pre>';
                 var_dump($array);
                 echo '</pre>';
