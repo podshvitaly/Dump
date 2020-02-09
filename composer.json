@@ -14,6 +14,6 @@
     "require-dev": {
     },
     "autoload": {
-        "psr-4": { "PodshVitaly\\Dump\\": "src/" }
+        "psr-4": { "PodshVitaly\\": "src/" }
     }
 }
