@@ -36,15 +36,25 @@ class Dump
         echo '<ul class="varDump">';
         if(is_object($array)){
             echo '<li class="array" name="object"><var>(' . get_class ($array) . ')</var> => <span>open</span> ';
-            echo '<ul class="varDump"><pre>';
+            echo '<ul class="varDump">';
 
             try {
-                var_dump($array);
+                foreach ($array as $key => $el) {
+                    echo '<li class="array" name="' . $key . '"><var>('
+                        . gettype($el)
+                        . ') '
+                        . $key
+                        . '</var> => <span>open</span> ';
+                    self::createList($el);
+                    echo ' </li>';
+                }
             }catch (Exception $e){
-                var_dump($e->getMessage());
+                echo '<pre>';
+                var_dump($array);
+                echo '</pre>';
             }
 
-            echo '</pre></ul>';
+            echo '</ul>';
             echo ' </li>';
         }else{
             foreach ($array as $key => $el) {
