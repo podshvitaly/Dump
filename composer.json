@@ -1,0 +1,16 @@
+{
+    "name": "podshvitaly/dump",
+    "description": "test composer pack",
+    "authors": [
+        {
+            "name": "Vitaly Podshibyakin",
+            "email": "podshvitaly@gmail.com",
+            "homepage": "https://freelance.ru/podshvitaly"
+        }
+    ],
+    "require": {
+        "php": ">= 7.1.0"
+    },
+    "require-dev": {
+    }
+}
