@@ -22,23 +22,44 @@ class Dump
         return self::$instance;
     }
 
-    public function getDump($array){
+    public function getDump($array)
+    {
         echo '<div class="pvdump__item">';
-            self::createList($array);
+        self::createList($array);
         echo '</div>';
     }
 
-    protected function createList($array){
+    protected function createList($array)
+    {
         echo '<ul class="varDump">';
-        foreach ($array as $key=>$el){
-            if(is_array($el)){
-                echo '<li class="array" name="'.$key.'"><var>('. gettype($el) .') ' . $key . '</var> => <span>open</span> ';
-                self::createList($el);
-                echo ' </li>';
-            }else{
-                echo '<li name="'.$key.'"><var>(' . gettype($el) .') ' . $key . '</var> => value: "' . $el . '"</li>';
+        if(is_object($array)){
+            echo '<li class="array" name="object"><var>(' . get_class ($array) . ')</var> => <span>open</span> ';
+            echo '<ul class="svarDump">';
+            var_dump($array);
+            echo '</ul>';
+            echo ' </li>';
+        }else{
+            foreach ($array as $key => $el) {
+
+                if(is_object($el)){
+                    echo '<li class="array" name="' . $key . '"><var>(' . get_class ($el) . ') ' . $key . '</var> => <span>open</span> ';
+                    echo '<ul class="svarDump">';
+                    var_dump($el);
+                    echo '</ul>';
+                    echo ' </li>';
+                }else if (is_array($el)) {
+                    echo '<li class="array" name="' . $key . '"><var>(' . gettype($el) . ') ' . $key . '</var> => <span>open</span> ';
+                    self::createList($el);
+                    echo ' </li>';
+                } else {
+                    echo '<li name="' . $key . '"><var>(' . gettype($el) . ') ' . $key . '</var> => value: "' . $el . '"</li>';
+                }
+
             }
         }
+
+
+
         echo '</ul>';
 
     }
