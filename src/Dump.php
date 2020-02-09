@@ -9,6 +9,8 @@
 namespace PodshVitaly;
 
 
+use mysql_xdevapi\Exception;
+
 class Dump
 {
     protected static $instance = null;
@@ -35,7 +37,12 @@ class Dump
         if(is_object($array)){
             echo '<li class="array" name="object"><var>(' . get_class ($array) . ')</var> => <span>open</span> ';
             echo '<ul class="svarDump">';
-            var_dump($array);
+            try {
+                var_dump($array);
+            }catch (Exception $e){
+                var_dump($e->getMessage());
+            }
+
             echo '</ul>';
             echo ' </li>';
         }else{
