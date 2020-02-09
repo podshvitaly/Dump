@@ -34,8 +34,8 @@ class Dump
     protected function createList($array)
     {
         echo '<ul class="varDump">';
-        if(is_object($array)){
-            echo '<li class="array" name="object"><var>(' . get_class ($array) . ')</var> => <span>open</span> ';
+        if (is_object($array)) {
+            echo '<li class="array" name="object"><var>(' . get_class($array) . ')</var> => <span>open</span> ';
             echo '<ul class="varDump">';
 
             try {
@@ -45,10 +45,14 @@ class Dump
                         . ') '
                         . $key
                         . '</var> => <span>open</span> ';
-                    self::createList($el);
+                    echo '<ul class="varDump">';
+                    echo '<pre>';
+                    var_dump($el);
+                    echo '</pre>';
+                    echo '</ul>';
                     echo ' </li>';
                 }
-            }catch (Exception $e){
+            } catch (Exception $e) {
                 echo '<pre>';
                 var_dump($array);
                 echo '</pre>';
@@ -56,7 +60,7 @@ class Dump
 
             echo '</ul>';
             echo ' </li>';
-        }else{
+        } else {
             foreach ($array as $key => $el) {
                 if (is_array($el) || is_object($el)) {
                     echo '<li class="array" name="' . $key . '"><var>(' . gettype($el) . ') ' . $key . '</var> => <span>open</span> ';
@@ -68,7 +72,6 @@ class Dump
 
             }
         }
-
 
 
         echo '</ul>';
