@@ -6,7 +6,7 @@
  * Time: 21:39
  */
 
-namespace podshvitaly;
+namespace PodshVitaly;
 
 
 class Dump
@@ -17,6 +17,7 @@ class Dump
     {
         if (is_null(self::$instance)) {
             self::$instance = new self;
+            self::getStyle();
         }
         return self::$instance;
     }
@@ -27,7 +28,7 @@ class Dump
         echo "<input type='text' style='width:100%'>";
         self::createList($array);
 
-        self::getStyle();
+
         echo '</div>';
     }
 
@@ -78,22 +79,25 @@ class Dump
         }
     </style>
     <script>
-        $('.dump').prependTo('body');
-        $('.varDump li.array span').click(function (e) {
-           $(this).parent().toggleClass('active');
-        });
-        $('.varDump li var').click(function (e) {            
-            var path = '';
-            $(this).parents('li').each(function (i,o) {
-               path = '[\'' + $(o).attr('name') + '\']' + path ;
+        $( document ).ready(function() {
+            $('.dump').prependTo('body');
+            $('.varDump li.array span').click(function (e) {
+               $(this).parent().toggleClass('active');
             });
-           console.log (path);
-           var input = $('.varDump').prev('input');
-           input.val(path);
-           input.select();
-            document.execCommand('copy');
-            
-    });
+            $('.varDump li var').click(function (e) {            
+                var path = '';
+                $(this).parents('li').each(function (i,o) {
+                   path = '[\'' + $(o).attr('name') + '\']' + path ;
+                });
+               console.log (path);
+               var input = $('.varDump').prev('input');
+               input.val(path);
+               input.select();
+                document.execCommand('copy');
+                
+            });
+        });
+        
         
     </script>
          ";
