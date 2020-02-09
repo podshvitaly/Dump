@@ -36,14 +36,15 @@ class Dump
         echo '<ul class="varDump">';
         if(is_object($array)){
             echo '<li class="array" name="object"><var>(' . get_class ($array) . ')</var> => <span>open</span> ';
-            echo '<ul class="varDump">';
+            echo '<ul class="varDump"><pre>';
+
             try {
                 var_dump($array);
             }catch (Exception $e){
                 var_dump($e->getMessage());
             }
 
-            echo '</ul>';
+            echo '</pre></ul>';
             echo ' </li>';
         }else{
             foreach ($array as $key => $el) {
